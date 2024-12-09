@@ -1,5 +1,5 @@
 import {openai} from '@ai-sdk/openai';
-import {generateText, streamText} from 'ai';
+import {generateText} from 'ai';
 import {NextResponse} from 'next/server';
 import {emailSystemPrompt} from "@/utils/prompts";
 
