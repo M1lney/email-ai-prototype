@@ -1,38 +1,34 @@
-'use client';
+"use client";
 
-import { useState } from "react";
-import {useBrandContext} from "@/app/contexts/brand-context";
+import { usePathname, useRouter } from "next/navigation";
 
 interface BrandSelectorProps {
     brands: { id: number; name: string }[];
 }
 
 export default function BrandSelector({ brands }: BrandSelectorProps) {
-    const { setSelectedBrandId } = useBrandContext(); // Use the context to get setSelectedBrandId
-    const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+    const router = useRouter();
 
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedId = e.target.value || null;
-        setSelectedBrand(selectedId);
-        setSelectedBrandId(selectedId);
+    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedBrandId = event.target.value;
+        const params = new URLSearchParams(window.location.search);
+        params.set("brandId", selectedBrandId);
+        router.push(`/brand?${params.toString()}`);
     };
 
     return (
-        <div>
-            <label htmlFor="brand">Select a Brand</label>
-            <select
-                id="brand"
-                value={selectedBrand || ""}
-                onChange={handleChange}
-            >
-                <option value="">Select Brand</option>
-                {brands.map((brand) => (
-                    <option key={brand.id} value={brand.id}>
-                        {brand.name}
-                    </option>
-                ))}
-            </select>
-        </div>
+        <select onChange={handleChange} className="p-2 border rounded">
+            <option value="all">All Brands</option> {/* Represents "all brands" */}
+            {brands.map((brand) => (
+                <option key={brand.id} value={brand.id}>
+                    {brand.name}
+                </option>
+            ))}
+        </select>
     );
 }
+
+
+
+
 

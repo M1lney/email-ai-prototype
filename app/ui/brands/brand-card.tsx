@@ -25,7 +25,7 @@ export default function BrandCard({ website, name, id }: BrandCardProps) {
                     </a>
                 </p>
                 <div className="mt-4">
-                    <Link href={`/dashboard/brands/${id}`} passHref>
+                    <Link href={`/app/brand/dashboard/brands/${id}`} passHref>
                         edit
                     </Link>
 
