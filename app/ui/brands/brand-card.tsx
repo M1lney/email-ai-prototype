@@ -1,22 +1,38 @@
-import Card from 'react-bootstrap/Card';
+import Link from 'next/link';
+
 interface BrandCardProps {
     website: string;
     name: string;
-    onEdit: () => void;
+    id: number;
 }
 
-export default function BrandCard({ website, name, onEdit,}: BrandCardProps) {
+export default function BrandCard({ website, name, id }: BrandCardProps) {
     return (
-        <div className="flex flex-col space-y-2 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-            <Card>
-                <Card.Header>{name}</Card.Header>
-                <Card.Body>
-                    <Card.Title>Special title treatment</Card.Title>
-                    <Card.Text>
+        <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div className="p-4 border-b">
+                <h2 className="text-lg font-semibold text-gray-800">{name}</h2>
+            </div>
+            <div className="p-4">
+                <p className="text-sm text-gray-600">
+                    <strong>Website:</strong>{' '}
+                    <a
+                        href={website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:underline"
+                    >
                         {website}
-                    </Card.Text>
-                </Card.Body>
-            </Card>
+                    </a>
+                </p>
+                <div className="mt-4">
+                    <Link href={`/dashboard/brands/${id}`} passHref>
+                        edit
+                    </Link>
+
+                </div>
+            </div>
         </div>
     );
 }
+
+

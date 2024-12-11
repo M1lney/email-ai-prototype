@@ -16,3 +16,9 @@ export default {
   },
   plugins: [],
 } satisfies Config;
+
+module.exports = {
+  content: ['./app/**/*.{js,ts,jsx,tsx,mdx}'],
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  plugins: [require('daisyui')],
+};

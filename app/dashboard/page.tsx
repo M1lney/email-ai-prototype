@@ -1,27 +1,25 @@
-import prisma from "@/lib/db";
-import BrandCard from "@/app/ui/brands/brand-card";
+import {getBrandsData, getCampaignData} from "@/lib/data";
+import CardDisplay from "@/app/ui/dashboard/card-display";
 
 
 export default async function Page() {
     // Fetching brands from the database
-    const brands = await prisma.brand.findMany();
+    const brands = await getBrandsData();
+    const campaigns = await getCampaignData();
 
     return (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 p-4">
-            {brands.map((brand) => (
-                <BrandCard
-                    key={brand.id} // Use unique identifier for the `key`
-                    website={brand.website}
-                    name={brand.name}
-                    onEdit={() => handleEditBrand(brand.id)} // Define a function for editing
-                />
-            ))}
+        <div className="container mx-auto p-6">
+            <div className="space-y-8">
+                {/* Display Brands */}
+                <section>
+                    <CardDisplay title="Brands" items={brands}/>
+                </section>
+
+                {/* Display Campaigns */}
+                <section>
+                    <CardDisplay title="Campaigns" items={campaigns}/>
+                </section>
+            </div>
         </div>
     );
-}
-
-// Example edit handler (modify as per your logic)
-function handleEditBrand(brandId: Number) {
-    console.log(`Editing brand with ID: ${brandId}`);
-    // Add navigation or modal logic here
 }
