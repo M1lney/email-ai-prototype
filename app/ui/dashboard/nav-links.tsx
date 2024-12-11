@@ -12,8 +12,8 @@ import {
 
 const links = [
     { name: 'Home', href: '/dashboard', icon: HomeIcon},
-    { name: 'Brands', href: '/dashboard/brands', icon: BuildingStorefrontIcon},
-    { name: 'Campaigns', href: '/dashboard/campaigns', icon: AtSymbolIcon},
+    { name: 'Brands', href: '/brand', icon: BuildingStorefrontIcon},
+    { name: 'Campaigns', href: '/brand/campaigns', icon: AtSymbolIcon},
 ];
 
 export default function NavLinks() {

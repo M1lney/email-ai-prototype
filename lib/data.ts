@@ -38,3 +38,42 @@ export async function getBrandsData() {
         throw new Error("Failed to fetch brands.");
     }
 }
+
+export async function getBrandIdsAndNames() {
+    try {
+        const brands = await prisma.brand.findMany({
+            select: {
+                id: true,
+                name: true,
+            },
+        });
+        return brands;
+    } catch (error) {
+        console.error("Error fetching brands:", error);
+        throw new Error("Failed to fetch brands.");
+    }
+}
+
+export async function getCampaignsById(brandId: number) {
+    try {
+        const campaigns = await prisma.campaign.findMany({
+            where: {
+                brandId: brandId,
+            },
+            select: {
+                id: true,
+                name: true,
+                description: true,
+                brand: {
+                    select: {
+                        name: true,
+                    }
+                }
+            }
+        });
+        return campaigns;
+    } catch (error) {
+        console.error("Error fetching campaigns:", error);
+        throw new Error("Failed to fetch campaigns.");
+    }
+}

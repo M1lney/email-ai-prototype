@@ -3,10 +3,8 @@ import CardDisplay from "@/app/ui/dashboard/card-display";
 
 
 export default async function Page() {
-    // Fetching brands from the database
     const brands = await getBrandsData();
     const campaigns = await getCampaignData();
-
     return (
         <div className="container mx-auto p-6">
             <div className="space-y-8">
