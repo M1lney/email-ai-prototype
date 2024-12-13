@@ -1,44 +1,48 @@
-// schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  email    String   @unique
-  name     String
-  brands   Brand[]
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  name      String
+  brands    Brand[]
   campaigns Campaign[]
 }
 
-
 model Brand {
-  id      Int      @id @default(autoincrement())
-  name    String
-  colors  Json
-  website String
+  id          Int        @id @default(autoincrement())
+  name        String
+  colors      Json
+  website     String
   description String
-  campaigns Campaign[]
-  userId  Int
-  user    User     @relation(fields: [userId], references: [id])
+  userId      Int
+  identifier  Identifier @default(BRAND)
+  user        User       @relation(fields: [userId], references: [id])
+  campaigns   Campaign[]
 }
 
 model Campaign {
-  id      Int      @id @default(autoincrement())
-  name    String
-  purpose String
-  tone    String
+  id          Int        @id @default(autoincrement())
+  name        String
+  purpose     String
+  tone        String
   description String
-  date    DateTime
-  brandId Int
-  brand   Brand    @relation(fields: [brandId], references: [id])
-  userId  Int
-  user    User     @relation(fields: [userId], references: [id])
+  date        DateTime
+  brandId     Int
+  userId      Int
+  identifier  Identifier @default(CAMPAIGN)
+  brand       Brand      @relation(fields: [brandId], references: [id])
+  user        User       @relation(fields: [userId], references: [id])
+}
+
+enum Identifier {
+  BRAND
+  CAMPAIGN
 }
