@@ -4,6 +4,7 @@ interface CardProps {
     description: string;
     image?: string;
     brandName?: string;
+    identifier: string;
 }
 
 
