@@ -1,79 +1,41 @@
 import prisma from "@/lib/db";
 
 
-export async function getCampaignData() {
-    try {
-        const campaigns = await prisma.campaign.findMany({
-            select: {
-                id: true,
-                name: true,
-                description: true,
-                brand: {
-                    select: {
-                        name: true,
-                    }
-                }
-            },
-        });
-        return campaigns;
-    } catch (error) {
-        console.error("Error fetching campaigns:", error);
-        throw new Error("Failed to fetch campaigns.");
+export async function getBrands() {
+    const brands = await prisma.brand.findMany({
+        include: { campaigns: true },
+    });
+    return brands.map((brand) => ({
+        ...brand,
+        _typename: "Brand" as const,
+    }));
+}
+
+export async function getCampaigns() {
+    const campaigns = await prisma.campaign.findMany({
+        include: { brand: true },
+    });
+    return campaigns.map((campaign) => ({
+        ...campaign,
+        _typename: "Campaign" as const,
+    }));
+}
+
+
+export async function getBrand(id: number) {
+    const brand = await prisma.brand.findUnique({
+        where: {id: id},
+        include: {campaigns: true},
+    })
+    return brand;
+}
+
+export async function getBrandsOrCampaigns( identifier: "campaigns" | "brands" ) {
+    switch (identifier) {
+        case "brands":
+            return getBrands();
+        case "campaigns":
+            return getCampaigns();
     }
 }
 
-export async function getBrandsData() {
-    try {
-        const brands = await prisma.brand.findMany({
-            select: {
-                id: true,
-                name: true,
-                description: true,
-                website: true,
-            },
-        });
-        return brands;
-    } catch (error) {
-        console.error("Error fetching brands:", error);
-        throw new Error("Failed to fetch brands.");
-    }
-}
-
-export async function getBrandIdsAndNames() {
-    try {
-        const brands = await prisma.brand.findMany({
-            select: {
-                id: true,
-                name: true,
-            },
-        });
-        return brands;
-    } catch (error) {
-        console.error("Error fetching brands:", error);
-        throw new Error("Failed to fetch brands.");
-    }
-}
-
-export async function getCampaignsById(brandId: number) {
-    try {
-        const campaigns = await prisma.campaign.findMany({
-            where: {
-                brandId: brandId,
-            },
-            select: {
-                id: true,
-                name: true,
-                description: true,
-                brand: {
-                    select: {
-                        name: true,
-                    }
-                }
-            }
-        });
-        return campaigns;
-    } catch (error) {
-        console.error("Error fetching campaigns:", error);
-        throw new Error("Failed to fetch campaigns.");
-    }
-}
