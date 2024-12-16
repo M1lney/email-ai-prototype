@@ -21,15 +21,6 @@ export async function getCampaigns() {
     }));
 }
 
-
-export async function getBrand(id: number) {
-    const brand = await prisma.brand.findUnique({
-        where: {id: id},
-        include: {campaigns: true},
-    })
-    return brand;
-}
-
 export async function getBrandsOrCampaigns( identifier: "campaigns" | "brands" ) {
     switch (identifier) {
         case "brands":
@@ -38,4 +29,5 @@ export async function getBrandsOrCampaigns( identifier: "campaigns" | "brands" )
             return getCampaigns();
     }
 }
+
 

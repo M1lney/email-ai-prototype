@@ -12,7 +12,7 @@ import {
 
 const links = [
     { name: 'Home', href: '/dashboard', icon: HomeIcon},
-    { name: 'Brands', href: '/brand', icon: BuildingStorefrontIcon},
+    { name: 'Brands', href: '/dashboard/brand', icon: BuildingStorefrontIcon},
     { name: 'Campaigns', href: '/brand/campaigns', icon: AtSymbolIcon},
 ];
 

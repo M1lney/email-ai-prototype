@@ -41,7 +41,30 @@ export async function createBrand(prevState: State, formData: FormData) : Promis
         };
     }
 
-    const res = await fetch('/api/brands')
-    return {message: res};
+    try {
+        const response = await fetch("/api/brand", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(validatedFormData.data),
+        });
+
+        if (!response.ok) {
+            const { message } = await response.json();
+            return {
+                errors: {},
+                message: message || "Failed to create brand. Please try again.",
+            };
+        }
+
+        return {
+            errors: {},
+            message: "Brand created successfully!",
+        };
+    } catch (error) {
+        return {
+            errors: {},
+            message: "An unexpected error occurred. Please try again later.",
+        };
+    }
 
 }
