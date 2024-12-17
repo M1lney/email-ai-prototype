@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "darwin-arm64"]
 }
 
@@ -20,7 +20,7 @@ model User {
 model Brand {
   id          Int        @id @default(autoincrement())
   name        String
-  colors      Json
+  colors      Json?
   website     String
   description String
   userId      Int
